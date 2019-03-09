@@ -46,8 +46,10 @@ function validateSong(song){
 }
 
 async function checkExistence(){
-    const song = await Song.findOne();
-    if (song){
+    var song;
+    await Song.find().limit(1).then( (s) => {song = s});
+    if (song.length > 0)
+    {
         return true;
     } else {
         return false;

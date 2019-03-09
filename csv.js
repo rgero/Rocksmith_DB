@@ -3,7 +3,7 @@ const fs = require('fs')
 
 const defaultSongObj = {
     artist: "",
-    song: "",
+    name: "",
     leadTuning: "",
     rhythmTuning: "",
     bassTuning: "" 
@@ -20,7 +20,7 @@ function parseData(dataSourceLoc){
         var newSong = defaultSongObj;
         if (song.length === 5) {
             newSong.artist = song[1];
-            newSong.song = song[0];
+            newSong.name = song[0];
             newSong.leadTuning = song[2];
             newSong.rhythmTuning = song[3];
             newSong.bassTuning = song[4];
