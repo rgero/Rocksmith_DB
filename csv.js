@@ -1,14 +1,6 @@
 const _ = require("lodash");
 const fs = require('fs') 
 
-const defaultSongObj = {
-    artist: "",
-    name: "",
-    leadTuning: "",
-    rhythmTuning: "",
-    bassTuning: "" 
-}
-
 function parseData(dataSourceLoc){
     var masterSongList = [];
     var dataString =  fs.readFileSync(dataSourceLoc).toString();
@@ -17,17 +9,17 @@ function parseData(dataSourceLoc){
     songList.forEach( (song)=> {
         song = _.trim(song)
         song = song.split('|')
-        var newSong = defaultSongObj;
+        var newSong = {};
         if (song.length === 5) {
             newSong.artist = song[1];
             newSong.name = song[0];
             newSong.leadTuning = song[2];
             newSong.rhythmTuning = song[3];
             newSong.bassTuning = song[4];
+            masterSongList.push(newSong);
         }
-        masterSongList.push(newSong);
+        
     })
-
     return masterSongList;
 };
 

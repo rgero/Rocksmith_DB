@@ -57,5 +57,5 @@ async function checkExistence(){
 }
 
 exports.Song = Song; 
-exports.validateSong = validateSong;
+exports.validate = validateSong;
 exports.checkExistence = checkExistence;
