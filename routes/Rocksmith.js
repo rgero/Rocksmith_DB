@@ -3,9 +3,23 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+
 router.get('/', async (req, res) => {
+
+    // Get the parameters and parse them into arrays for easier searching later.
+    let queryParams = req.query;
+    if (queryParams["artist"]) { queryParams["artist"] = queryParams["artist"].split(',') };
+    if (queryParams["song"]) { queryParams["song"] = queryParams["song"].split(',') };
+    if (queryParams["leadTuning"]) { queryParams["leadTuning"] = queryParams["leadTuning"].split(',') };
+    if (queryParams["rhythmTuning"]) { queryParams["rhythmTuning"] = queryParams["rhythmTuning"].split(',') };
+    if (queryParams["bassTuning"]) { queryParams["bassTuning"] = queryParams["bassTuning"].split(',') };
+
+    console.log(queryParams)
+
     var songString = "";
-    const songs = await Song.find().sort('artist');
+    const songs = await Song.find( queryParams ).select("artist name leadTuning rhythmTuning bassTuning -_id").sort('artist');
+    
+    
     res.send(songs);
 })
 
