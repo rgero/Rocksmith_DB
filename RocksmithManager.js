@@ -4,6 +4,7 @@ const {Song, checkExistence} = require('./models/Song');
 const RocksmithRoutes = require('./routes/Rocksmith');
 const express = require('express');
 const app = express();
+const cors = require('cors')
 
 function populateData(){
     // The CSV file is the master list. This is parsed from another site.
@@ -28,8 +29,9 @@ async function startUp(){
 
     // The database should be populated by this point, start the application.
     app.use(express.json());
+    app.use(cors());
     app.use('/api/rocksmith', RocksmithRoutes);
-    const port = process.env.PORT || 3000;
+    const port = process.env.PORT || 8000;
     app.listen(port, () => console.log(`Server Started - Listening on port ${port}...`));
 }
 
