@@ -22,12 +22,10 @@ router.get('/', async (req, res) => {
     if (queryParams["rhythmTuning"]) { queryParams["rhythmTuning"] = parseParam(queryParams["rhythmTuning"]) };
     if (queryParams["bassTuning"]) { queryParams["bassTuning"] = parseParam(queryParams["bassTuning"]) };
 
-
-    var songString = "";
     const songs = await Song.find( queryParams ).select("artist name leadTuning rhythmTuning bassTuning -_id").sort('artist');
     
     
-    res.send(songs);
+    res.send(JSON.stringify(songs));
 })
 
 router.put('/', async (req, res) => {
