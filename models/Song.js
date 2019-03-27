@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
+// TODO: Is there anything else I'd like store?
+
 const Song = mongoose.model('Song', new mongoose.Schema({
     artist: {
       type: String,

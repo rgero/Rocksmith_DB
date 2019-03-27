@@ -14,7 +14,7 @@ function parseParam(input){
 
 router.get('/', async (req, res) => {
 
-    // Get the parameters and parse them into arrays for easier searching later.
+    // Get the parameters and parse them into arrays of regular expressions.
     let queryParams = req.query;
     if (queryParams["artist"]) { queryParams["artist"] = parseParam(queryParams["artist"]) };
     if (queryParams["song"]) { queryParams["song"] = parseParam(queryParams["song"]) };
@@ -29,6 +29,8 @@ router.get('/', async (req, res) => {
 })
 
 router.put('/', async (req, res) => {
+    // TODO: Look into some form of authentication. I don't want this available to everyone in the world.
+
     var songs = req.body;
     if (typeof(songs) === 'object' && songs.constructor === Array){
         console.log("We got an array");
