@@ -3,18 +3,25 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+function parseParam(input){
+    var inpArr = input.split(',');
+    for( var i=0; i < inpArr.length; i++ ){
+        inpArr[i] = new RegExp(inpArr[i], 'i');
+    }
+    return inpArr;
+}
+
 
 router.get('/', async (req, res) => {
 
     // Get the parameters and parse them into arrays for easier searching later.
     let queryParams = req.query;
-    if (queryParams["artist"]) { queryParams["artist"] = queryParams["artist"].split(',') };
-    if (queryParams["song"]) { queryParams["song"] = queryParams["song"].split(',') };
-    if (queryParams["leadTuning"]) { queryParams["leadTuning"] = queryParams["leadTuning"].split(',') };
-    if (queryParams["rhythmTuning"]) { queryParams["rhythmTuning"] = queryParams["rhythmTuning"].split(',') };
-    if (queryParams["bassTuning"]) { queryParams["bassTuning"] = queryParams["bassTuning"].split(',') };
+    if (queryParams["artist"]) { queryParams["artist"] = parseParam(queryParams["artist"]) };
+    if (queryParams["song"]) { queryParams["song"] = parseParam(queryParams["song"]) };
+    if (queryParams["leadTuning"]) { queryParams["leadTuning"] = parseParam(queryParams["leadTuning"]) };
+    if (queryParams["rhythmTuning"]) { queryParams["rhythmTuning"] = parseParam(queryParams["rhythmTuning"]) };
+    if (queryParams["bassTuning"]) { queryParams["bassTuning"] = parseParam(queryParams["bassTuning"]) };
 
-    console.log(queryParams)
 
     var songString = "";
     const songs = await Song.find( queryParams ).select("artist name leadTuning rhythmTuning bassTuning -_id").sort('artist');
