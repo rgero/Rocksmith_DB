@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const mongoose = require('mongoose');
 const CSVParser = require('./csv');
 const {Song, checkExistence} = require('./models/Song');
