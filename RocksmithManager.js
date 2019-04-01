@@ -32,7 +32,7 @@ async function startUp(){
     // The database should be populated by this point, start the application.
     app.use(express.json());
     app.use(cors());
-    app.use('/rocksmith/api', RocksmithRoutes);
+    app.use('/api', RocksmithRoutes);
     const port = process.env.PORT || 8000;
     app.listen(port, () => console.log(`Server Started - Listening on port ${port}...`));
 }
