@@ -23,4 +23,28 @@ function parseData(dataSourceLoc){
     return masterSongList;
 };
 
+async function writeData(songList)
+{
+    //Convert song list to CSV string
+    var csvString = "";
+    songList.forEach( (song) => {
+        csvString = csvString + song.artist + "|" + song.name + "|" + song.leadTuning + "|" + song.rhythmTuning + "|" + song.bassTuning + "\n";
+    })
+
+    var filePath = "Rocksmith.csv";
+    var err = null;
+
+    // Write File
+    err = fs.writeFile(filePath, csvString, function(err) {
+        if(err) {
+            console.log(err);
+            return err;
+        }
+        console.log("The file was saved!");
+    })
+
+    return err;
+}
+
 module.exports.parse = parseData;
+module.exports.writeData = writeData;

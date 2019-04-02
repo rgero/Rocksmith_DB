@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const config = require('config');
 const router = express.Router();
+const {writeData} = require("../csv");
 
 function parseParam(input){
     var inpArr = input.split(',');
@@ -74,5 +75,24 @@ router.put('/', async (req, res) => {
 
     res.send("Song successfully posted.");
 })
+
+router.copy('/', async (req, res) => {
+        var key = req.body.key;
+        if (!key){ return res.status(401).send("Error: Cannot Put - No Authentication Key was provided"); }
+
+        var authKey = config.get('rocksmithAuthKey');
+        if (authKey != key) { return res.status(400).send("Bad Request."); }
+
+        const songs = await Song.find().select("artist name leadTuning rhythmTuning bassTuning -_id").sort('artist');
+
+        var err = writeData(songs);
+        if (err){
+            res.status(500).send("There was an error writing the file");
+        } else {
+            res.send("File has been successfully written");
+        }
+
+    }
+)
 
 module.exports = router;
