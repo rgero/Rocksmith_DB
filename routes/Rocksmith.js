@@ -1,6 +1,7 @@
 const {Song, validate} = require('../models/Song'); 
 const mongoose = require('mongoose');
 const express = require('express');
+const config = require('config');
 const router = express.Router();
 
 function parseParam(input){
@@ -29,9 +30,17 @@ router.get('/', async (req, res) => {
 })
 
 router.put('/', async (req, res) => {
-    // TODO: Look into some form of authentication. I don't want this available to everyone in the world.
 
-    var songs = req.body;
+    var key = req.body.key;
+    if (!key){ return res.status(401).send("Error: Cannot Put - No Authentication Key was provided"); }
+
+    var authKey = config.get('rocksmithAuthKey');
+    if (authKey != key) { return res.status(400).send("Bad Request."); }
+
+    if(!req.body.songs) { return res.status(400).send("Bad Request - No Songs listed") };
+
+
+    var songs = req.body.songs;
     if (typeof(songs) === 'object' && songs.constructor === Array){
         console.log("We got an array");
         songs.forEach( async (song) => {
@@ -63,7 +72,7 @@ router.put('/', async (req, res) => {
         song = await song.save();
     }
 
-    res.send("Ok");
+    res.send("Song successfully posted.");
 })
 
 module.exports = router;
