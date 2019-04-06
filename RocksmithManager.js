@@ -7,6 +7,7 @@ const RocksmithRoutes = require('./routes/Rocksmith');
 const express = require('express');
 const app = express();
 const cors = require('cors')
+const config = require('config');
 
 function populateData(){
     // The CSV file is the master list. This is parsed from another site.
@@ -38,7 +39,17 @@ async function startUp(){
 }
 
 // START POINT - This connects to the database.
-mongoose.connect('mongodb://localhost/Rocksmith')
+var username = config.get('username');
+var password = config.get('password');
+
+var options = {
+    user: username,
+    pass: password,
+    useNewUrlParser: true,
+    authSource: "admin"
+}
+
+mongoose.connect('mongodb://localhost/Rocksmith', options)
     .then( startUp() )
     .catch( error => console.error('Could not connect: ', error));
 

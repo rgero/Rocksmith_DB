@@ -1,3 +1,5 @@
 {
-    "rocksmithAuthKey": "rocksmith_dlc_putkey"
+    "rocksmithAuthKey": "rocksmithAuthKey",
+    "username" : "mongodbUser",
+    "password" : "mongodbPassword"
 }
