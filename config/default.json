@@ -1,5 +1,6 @@
 {
     "rocksmithAuthKey": "",
     "username" : "",
-    "password" : ""
+    "password" : "",
+    "db": "mongodb://localhost/Rocksmith"
 }

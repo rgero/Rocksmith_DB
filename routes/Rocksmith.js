@@ -36,14 +36,16 @@ router.put('/', async (req, res) => {
     if (!key){ return res.status(401).send("Error: Cannot Put - No Authentication Key was provided"); }
 
     var authKey = config.get('rocksmithAuthKey');
-    if (authKey != key) { return res.status(400).send("Bad Request."); }
+    if (authKey !== key) {
+        return res.status(400).send("Bad Request."); 
+    }
 
     if(!req.body.songs) { return res.status(400).send("Bad Request - No Songs listed") };
 
 
+
     var songs = req.body.songs;
     if (typeof(songs) === 'object' && songs.constructor === Array){
-        console.log("We got an array");
         songs.forEach( async (song) => {
             const { error } = validate(song);
             if (error) return res.status(400).send(error.details[0].message);
@@ -59,21 +61,21 @@ router.put('/', async (req, res) => {
             newSong = await newSong.save();
         })
     } else {
-        const { error } = validate(req.body);
+        const { error } = validate(songs);
         if (error) return res.status(400).send(error.details[0].message);
 
         let song = new Song({
-            artist: req.body.artist,
-            name: req.body.name,
-            leadTuning: req.body.leadTuning,
-            rhythmTuning: req.body.rhythmTuning,
-            bassTuning: req.body.bassTuning,
+            artist: songs.artist,
+            name: songs.name,
+            leadTuning: songs.leadTuning,
+            rhythmTuning: songs.rhythmTuning,
+            bassTuning: songs.bassTuning,
         })
 
         song = await song.save();
     }
 
-    res.send("Song successfully posted.");
+    return res.send("Song successfully posted.");
 })
 
 router.copy('/', async (req, res) => {

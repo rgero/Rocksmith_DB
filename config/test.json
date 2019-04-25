@@ -1,0 +1,4 @@
+{
+    "rocksmithAuthKey": "sillygoose",
+    "db": "mongodb://localhost/RocksmithTesting"
+}
