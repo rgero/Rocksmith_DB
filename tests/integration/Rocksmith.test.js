@@ -76,12 +76,11 @@ describe("PUT tests for /", ()=> {
     test("User submits multiple song, check if saved", async ()=> {
         inputParams.songs = [ songDic, songDic, songDic]
         var result = await executeRequest();
-
-        console.log(Song.countDocuments(songDic));
-
         var songsInDB = Song.countDocuments(songDic);
         expect(songsInDB).not.toBeNull();
     })
-
-
 })
+
+// TODO
+// Tests for GET
+// Tests for Copy
