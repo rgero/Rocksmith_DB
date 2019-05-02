@@ -81,6 +81,65 @@ describe("PUT tests for /", ()=> {
     })
 })
 
+describe("GET Tests for /", ()=> {
+
+    beforeEach( async ()=> {
+        server = require('../../RocksmithManager');
+        testSongArray = [
+            {
+                artist: "Roy G",
+                name: "Song Awesome",
+                leadTuning: "E Standard",
+                rhythmTuning: "G Standard",
+                bassTuning: "Drop D"
+            },
+            {
+                artist: "Roy G",
+                name: "Not",
+                leadTuning: "B Standard",
+                rhythmTuning: "C Standard",
+                bassTuning: "Drop B"
+            },
+            {
+                artist: "Roy G",
+                name: "Song Awesome 2",
+                leadTuning: "E Standard",
+                rhythmTuning: "E Standard",
+                bassTuning: "E Standard"
+            },
+            {
+                artist: "Steve",
+                name: "Song Awesome",
+                leadTuning: "E Standard",
+                rhythmTuning: "F Standard",
+                bassTuning: "Drop A"
+            },
+        ];
+        testSongArray.forEach( async (songDic) => {
+            var testSong = new Song(songDic);
+            await testSong.save();
+        })
+    })
+    afterEach(async () => { 
+        await Song.deleteMany({});
+        await server.close(); 
+    });
+
+    test("No Input Params, status 200 should be returned", async ()=> {
+        const res = await request(server).get('/api');
+        expect(res.status).toBe(200);
+    })
+
+    test("No Input Params, status 200 should be returned", async ()=> {
+        const res = await request(server).get('/api');
+        console.log(res.body)
+        expect(res.body).toBe(5);
+    })
+
+
+
+})
+
 // TODO
 // Tests for GET
 // Tests for Copy
