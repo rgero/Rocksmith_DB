@@ -40,14 +40,15 @@ router.put('/', async (req, res) => {
 
     if(!req.body.songs) { return res.status(400).send("Bad Request - No Songs listed") };
 
-
-
+    var err = null;
     var songs = req.body.songs;
     if (typeof(songs) === 'object' && songs.constructor === Array){
-        songs.forEach( async (song) => {
+        var songList = [];
+        songs.forEach( (song) => {
             const { error } = validate(song);
-            if (error) return res.status(400).send(error.details[0].message);
-    
+            if (error) {
+                err = error;
+            }
             let newSong = new Song({
                 artist: song.artist,
                 name: song.name,
@@ -56,11 +57,18 @@ router.put('/', async (req, res) => {
                 bassTuning: song.bassTuning,
             })
     
-            newSong = await newSong.save();
+            songList.push(newSong);
         })
+        if (err) {
+            return res.status(400).send(err.details[0].message);
+        } else {
+            songList.forEach(async (song) => {
+                song.save();
+            })
+        }
     } else {
         const { error } = validate(songs);
-        if (error) return res.status(400).send(error.details[0].message);
+        if (error) { return res.status(400).send(error.details[0].message); }
 
         let song = new Song({
             artist: songs.artist,
@@ -69,10 +77,8 @@ router.put('/', async (req, res) => {
             rhythmTuning: songs.rhythmTuning,
             bassTuning: songs.bassTuning,
         })
-
         song = await song.save();
     }
-
     return res.send("Song successfully posted.");
 })
 
@@ -96,3 +102,4 @@ router.copy('/', async (req, res) => {
 )
 
 module.exports = router;
+module.exports.parseParam = parseParam;

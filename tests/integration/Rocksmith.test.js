@@ -1,8 +1,8 @@
 const request = require('supertest');
 const {Song} = require('../../models/Song');
+const {parseParam} = require('../../routes/Rocksmith');
 
 let server;
-let song;
 let songDic;
 let rocksmithKey;
 let inputParams;
@@ -79,6 +79,22 @@ describe("PUT tests for /", ()=> {
         var songsInDB = Song.countDocuments(songDic);
         expect(songsInDB).not.toBeNull();
     })
+
+    test("User submits invalid song, should return status 400", async ()=> {
+        var tempSong = songDic;
+        delete tempSong.leadTuning;
+        inputParams.songs = tempSong;    
+        var result = await executeRequest();
+        expect(result.status).toBe(400);
+    })
+
+    test("User submits invalid song in array, should return status 400", async ()=> {
+        var tempSong = songDic;
+        delete tempSong.leadTuning;
+        inputParams.songs = [songDic, tempSong];    
+        var result = await executeRequest();
+        expect(result.status).toBe(400);
+    })
 })
 
 describe("GET Tests for /", ()=> {
@@ -140,7 +156,3 @@ describe("GET Tests for /", ()=> {
 
 
 })
-
-// TODO
-// Tests for GET
-// Tests for Copy

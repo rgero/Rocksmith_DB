@@ -1,3 +1,4 @@
 
 mongo_database/
 node_modules/
+coverage/
