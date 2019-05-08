@@ -14,7 +14,7 @@ describe("Test for checkExistence", ()=> {
             bassTuning: "Drop D"
         };
         const newSong = new Song(songDic);
-        newSong.save();
+        await newSong.save();
     })
     afterEach(async () => { 
         await Song.deleteMany({});

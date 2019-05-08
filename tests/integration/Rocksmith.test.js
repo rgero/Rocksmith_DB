@@ -132,8 +132,9 @@ describe("GET Tests for /", ()=> {
 
     test("No Input Params, status 200 should be returned", async ()=> {
         const res = await request(server).get('/api');
-        console.log(res.body)
-        expect(res.body).toBe(5);
+        var songOne = '{"artist":"Roy G","name":"Song Awesome","leadTuning":"E Standard","rhythmTuning":"G Standard","bassTuning":"Drop D"}';
+        expect(res.text).not.toBeNull();
+        expect(res.text).toContain(songOne)
     })
 
 
