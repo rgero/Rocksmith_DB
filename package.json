@@ -4,6 +4,7 @@
   "description": "",
   "main": "RocksmithManager.js",
   "scripts": {
+    "start": "node src\\RocksmithManager.js",
     "test": "jest --watch --runInBand",
     "coverage": "jest --coverage --runInBand"
   },
