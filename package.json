@@ -2,9 +2,8 @@
   "name": "RocksmithDLC",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "RocksmithManager.js",
   "scripts": {
-    "start": "node app.js",
     "test": "jest --watch --runInBand",
     "coverage": "jest --coverage --runInBand"
   },
