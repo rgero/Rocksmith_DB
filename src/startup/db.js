@@ -31,7 +31,11 @@ async function startUp(){
 module.exports = function() {
   const db = config.get('db');
   var username = config.get('username');
-  var password = config.get('password');  
-  mongoose.connect(db, {useNewUrlParser:true })
+  var password = config.get('password');
+  var dbSettings = {
+    useNewUrlParser:true,
+    useUnifiedTopology: true
+  }  
+  mongoose.connect(db, dbSettings)
     .then(startUp());
 }
